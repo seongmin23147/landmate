@@ -274,7 +274,7 @@ if st.session_state.page == 'membership':
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("1회권으로 시작하기"):
+    if st.button("1회권으로 시작하기", use_container_width=True):
         st.session_state.membership = '1회권'
         st.session_state.page = 'profile'
         st.rerun()
@@ -293,7 +293,7 @@ if st.session_state.page == 'membership':
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("정기 멤버십으로 시작하기"):
+    if st.button("정기 멤버십으로 시작하기", use_container_width=True):
         st.session_state.membership = '정기 멤버십'
         st.session_state.page = 'profile'
         st.rerun()
@@ -486,7 +486,7 @@ elif st.session_state.page == 'recommendation':
 
     st.divider()
 
-    if st.button("입장하기 (메인 홈으로)"):
+    if st.button("입장하기 (메인 홈으로)", use_container_width=True):
         st.session_state.page = 'home'
         st.rerun()
 
@@ -763,7 +763,7 @@ elif st.session_state.page == 'map':
         )
 
     st.divider()
-    if st.button("메인 홈으로"):
+    if st.button("메인 홈으로", use_container_width=True):
         st.session_state.page = 'home'
         st.rerun()
 
@@ -803,7 +803,7 @@ elif st.session_state.page == 'report':
 
     st.divider()
 
-    if st.button("제출하기"):
+    if st.button("제출하기", use_container_width=True):
         st.success("소중한 의견 감사합니다! 다음 방문 시 더 정확한 추천을 드릴게요.")
         st.markdown(
             f"<div style='background:#FDECEA; border-radius:10px; padding:16px; margin-top:12px;'>"
@@ -812,7 +812,7 @@ elif st.session_state.page == 'report':
             f"</div>",
             unsafe_allow_html=True
         )
-        if st.button("처음으로 돌아가기"):
+        if st.button("처음으로 돌아가기", use_container_width=True):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
