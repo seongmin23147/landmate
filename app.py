@@ -30,15 +30,21 @@ st.markdown("""
         border: none; border-radius: 8px;
     }
     div[data-testid="column"] {
-        width: fit-content !important;
         flex: 1 !important;
         min-width: 0 !important;
+        padding: 0 2px !important;
     }
     div[data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
-        gap: 4px !important;
+        gap: 0px !important;
         flex-wrap: nowrap !important;
+        width: 100% !important;
+    }
+    div[data-testid="column"] .stButton > button {
+        width: 100% !important;
+        font-size: 0.85rem !important;
+        padding: 0.5rem 0.2rem !important;
     }
     .stButton > button:hover { background-color: #A00D18; }
     h1 { font-size: 1.5rem !important; color: #C8101E !important; }
@@ -573,11 +579,11 @@ elif st.session_state.page == 'home':
                 st.session_state.page = 'map'
                 st.rerun()
         with col2:
-            if st.button("리포트 작성"):
+            if st.button("방문 종료 후 리포트 작성"):
                 st.session_state.page = 'report'
                 st.rerun()
     else:
-        if st.button("리포트 작성"):
+        if st.button("방문 종료 후 리포트 작성"):
             st.session_state.page = 'report'
             st.rerun()
 
