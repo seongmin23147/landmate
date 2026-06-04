@@ -29,6 +29,17 @@ st.markdown("""
         background-color: #C8101E; color: white;
         border: none; border-radius: 8px;
     }
+    div[data-testid="column"] {
+        width: fit-content !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+    }
+    div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 8px !important;
+        flex-wrap: nowrap !important;
+    }
     .stButton > button:hover { background-color: #A00D18; }
     h1 { font-size: 1.5rem !important; color: #C8101E !important; }
     h2 { font-size: 1.2rem !important; }
@@ -288,6 +299,7 @@ if st.session_state.page == 'membership':
 # 화면 2: 아이 프로필 입력
 # =====================
 elif st.session_state.page == 'profile':
+
     st.title("아이 정보 입력")
     st.caption("입력하신 정보는 맞춤 추천에 활용됩니다")
     st.divider()
@@ -384,7 +396,7 @@ elif st.session_state.page == 'date':
 elif st.session_state.page == 'recommendation':
     predicted = st.session_state.predicted_visitors
     time_pool = st.session_state.recommended_time
-    course = st.session_state.recommended_course
+    course = st.session_state.recommended_course if st.session_state.membership == '정기 멤버십' else None
 
     if predicted >= 7000:
         congestion_label = "혼잡 예상"
@@ -424,45 +436,42 @@ elif st.session_state.page == 'recommendation':
 
     st.divider()
 
-    # 추천 코스
-    st.subheader("추천 방문 코스")
-    st.markdown(f"**{course['name']}**")
-
-    st.markdown("**구역 순서**")
-    for i, zone in enumerate(course['zones']):
+    # 추천 코스 (정기 멤버십만)
+    if st.session_state.membership == '정기 멤버십':
+        st.subheader("추천 방문 코스")
+        st.markdown(f"**{course['name']}**")
+        st.markdown("**구역 순서**")
+        for i, zone in enumerate(course['zones']):
+            st.markdown(
+                f"<div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'>"
+                f"<div style='width:24px; height:24px; background:#C8101E; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;'>{i+1}</div>"
+                f"<div style='font-size:14px;'>{zone}</div>"
+                f"</div>",
+                unsafe_allow_html=True
+            )
+        st.markdown("**추천 놀이기구**")
+        for ride in course['rides']:
+            st.markdown(f"• {ride}")
         st.markdown(
-            f"<div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'>"
-            f"<div style='width:24px; height:24px; background:#C8101E; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;'>{i+1}</div>"
-            f"<div style='font-size:14px;'>{zone}</div>"
-            f"</div>",
+            f"<div style='background:#f9f9f9; border-left:3px solid #C8101E; padding:10px 14px; border-radius:4px; margin-top:10px; font-size:13px; color:#555;'>"
+            f"{course['tip']}</div>",
             unsafe_allow_html=True
         )
+        if st.session_state.visit_weather in ['비/우천', '눈']:
+            st.warning("우천 예보가 있어 실내 시설 위주로 동선을 조정했습니다.")
+        st.divider()
 
-    st.markdown("**추천 놀이기구**")
-    for ride in course['rides']:
-        st.markdown(f"• {ride}")
-
-    st.markdown(
-        f"<div style='background:#f9f9f9; border-left:3px solid #C8101E; padding:10px 14px; border-radius:4px; margin-top:10px; font-size:13px; color:#555;'>"
-        f"{course['tip']}</div>",
-        unsafe_allow_html=True
-    )
-
-    if st.session_state.visit_weather in ['비/우천', '눈']:
-        st.warning("우천 예보가 있어 실내 시설 위주로 동선을 조정했습니다.")
-
-    st.divider()
-
-    # 아이 연령 맞춤 안내
-    age = st.session_state.child_age
-    if age <= 3:
-        st.info("영아의 경우 수유실과 휴게 공간 위치를 미리 확인하세요.")
-    elif age <= 6:
-        st.info("유아의 경우 3~4시간 이내 방문을 권장합니다.")
-    elif age <= 10:
-        st.info("키 제한이 있는 시설은 사전에 확인해주세요.")
-    else:
-        st.info("하루 종일 방문 가능합니다. 오전 스릴 → 오후 체험 순서를 추천합니다.")
+        # 아이 연령 맞춤 안내
+        age = st.session_state.child_age
+        if age <= 3:
+            st.info("영아의 경우 수유실과 휴게 공간 위치를 미리 확인하세요.")
+        elif age <= 6:
+            st.info("유아의 경우 3~4시간 이내 방문을 권장합니다.")
+        elif age <= 10:
+            st.info("키 제한이 있는 시설은 사전에 확인해주세요.")
+        else:
+            st.info("하루 종일 방문 가능합니다. 오전 스릴 → 오후 체험 순서를 추천합니다.")
+        st.divider()
 
     st.divider()
 
@@ -474,7 +483,7 @@ elif st.session_state.page == 'recommendation':
 # 화면 5: 메인 홈
 # =====================
 elif st.session_state.page == 'home':
-    course = st.session_state.recommended_course
+    course = st.session_state.recommended_course if st.session_state.membership == '정기 멤버십' else None
     time_pool = st.session_state.recommended_time
     predicted = st.session_state.predicted_visitors
 
@@ -505,14 +514,15 @@ elif st.session_state.page == 'home':
 
     st.divider()
 
-    # 오늘의 코스 요약
-    st.subheader("오늘의 추천 코스")
-    st.markdown(f"**{course['name']}**")
-    zones_html = ""
-    for i, zone in enumerate(course['zones']):
-        arrow = " → " if i < len(course['zones']) - 1 else ""
-        zones_html += f"<span style='background:#C8101E; color:#fff; padding:3px 10px; border-radius:20px; font-size:12px; margin-right:4px;'>{zone}</span>{arrow}"
-    st.markdown(zones_html, unsafe_allow_html=True)
+# 오늘의 코스 요약 (정기 멤버십만)
+    if st.session_state.membership == '정기 멤버십' and course:
+        st.subheader("오늘의 추천 코스")
+        st.markdown(f"**{course['name']}**")
+        zones_html = ""
+        for i, zone in enumerate(course['zones']):
+            arrow = " → " if i < len(course['zones']) - 1 else ""
+            zones_html += f"<span style='background:#C8101E; color:#fff; padding:3px 10px; border-radius:20px; font-size:12px; margin-right:4px;'>{zone}</span>{arrow}"
+        st.markdown(zones_html, unsafe_allow_html=True)
 
     st.divider()
 
@@ -546,8 +556,9 @@ elif st.session_state.page == 'home':
     st.divider()
 
     # 편의시설 안내
-    st.subheader("편의시설 안내")
-    st.markdown(f"**휴게 공간:** {course['rest']}")
+    if st.session_state.membership == '정기 멤버십' and course:
+        st.subheader("편의시설 안내")
+        st.markdown(f"**휴게 공간:** {course['rest']}")
 
     if st.session_state.child_age <= 6:
         st.markdown("**수유실:** 캐릭터타운 내 위치")
@@ -555,9 +566,10 @@ elif st.session_state.page == 'home':
 
     st.divider()
 
-    if st.button("동선 지도 보기"):
-        st.session_state.page = 'map'
-        st.rerun()
+    if st.session_state.membership == '정기 멤버십':
+        if st.button("동선 지도 보기"):
+            st.session_state.page = 'map'
+            st.rerun()
 
     if st.button("방문 종료 후 리포트 작성"):
         st.session_state.page = 'report'
@@ -760,8 +772,9 @@ elif st.session_state.page == 'report':
     st.subheader("만족도 평가")
     overall = st.slider("전반적인 만족도", 1, 5, 4,
                         format="%d점")
-    recommend_score = st.slider("추천 코스 적절성", 1, 5, 4,
-                                format="%d점")
+    if st.session_state.membership == '정기 멤버십':
+        recommend_score = st.slider("추천 코스 적절성", 1, 5, 4,
+                                    format="%d점")
     time_score = st.slider("추천 방문 시간 적절성", 1, 5, 4,
                            format="%d점")
 
