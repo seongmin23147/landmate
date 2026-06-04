@@ -329,13 +329,21 @@ elif st.session_state.page == 'profile':
 
     st.divider()
 
-    btn_col1, btn_col2 = st.columns([1,1])
-    with btn_col1:
-        if st.button("이전", key="profile_prev"):
+    st.markdown("""
+    <style>
+    .button-row { display: flex; gap: 8px; margin-top: 1rem; }
+    .button-row > div { flex: 1; }
+    .button-row button { width: 100% !important; }
+    </style>
+    """, unsafe_allow_html=True)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("이전", key="profile_prev", use_container_width=True):
             st.session_state.page = 'membership'
             st.rerun()
-    with btn_col2:
-        if st.button("다음", key="profile_next"):
+    with c2:
+        if st.button("다음", key="profile_next", use_container_width=True):
             st.session_state.child_age = child_age
             st.session_state.child_type = child_type
             st.session_state.visit_purpose = visit_purpose
@@ -372,13 +380,13 @@ elif st.session_state.page == 'date':
 
     st.divider()
 
-    btn_col1, btn_col2 = st.columns([1,1])
-    with btn_col1:
-        if st.button("이전", key="date_prev"):
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("이전", key="date_prev", use_container_width=True):
             st.session_state.page = 'profile'
             st.rerun()
-    with btn_col2:
-        if st.button("추천 받기", key="date_next"):
+    with c2:
+        if st.button("추천 받기", key="date_next", use_container_width=True):
             st.session_state.visit_month = visit_month
             st.session_state.visit_weekday = visit_weekday
             st.session_state.visit_weather = visit_weather
@@ -570,13 +578,13 @@ elif st.session_state.page == 'home':
     st.divider()
 
     if st.session_state.membership == '정기 멤버십':
-        btn_col1, btn_col2 = st.columns([1,1])
-        with btn_col1:
-            if st.button("동선 지도 보기", key="home_map"):
+        c1, c2 = st.columns(2)
+        with c1:
+            if st.button("동선 지도 보기", key="home_map", use_container_width=True):
                 st.session_state.page = 'map'
                 st.rerun()
-        with btn_col2:
-            if st.button("방문 종료 후\n리포트 작성", key="home_report"):
+        with c2:
+            if st.button("방문 종료 후 리포트", key="home_report", use_container_width=True):
                 st.session_state.page = 'report'
                 st.rerun()
     else:
