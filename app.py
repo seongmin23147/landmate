@@ -531,6 +531,8 @@ elif st.session_state.page == 'home':
         st.markdown(f"**{course['name']}**")
         zones_html = ""
         for i, zone in enumerate(course['zones']):
+            if i == 3:
+                zones_html += "<br>"
             arrow = " → " if i < len(course['zones']) - 1 else ""
             zones_html += f"<span style='background:#C8101E; color:#fff; padding:3px 10px; border-radius:20px; font-size:12px; margin-right:4px;'>{zone}</span>{arrow}"
         st.markdown(zones_html, unsafe_allow_html=True)
