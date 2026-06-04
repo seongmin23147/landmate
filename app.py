@@ -29,22 +29,18 @@ st.markdown("""
         background-color: #C8101E; color: white;
         border: none; border-radius: 8px;
     }
-    div[data-testid="column"] {
-        flex: 1 !important;
+    [data-testid="column"] {
+        padding: 0 !important;
         min-width: 0 !important;
-        padding: 0 2px !important;
     }
-    div[data-testid="stHorizontalBlock"] {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 0px !important;
-        flex-wrap: nowrap !important;
-        width: 100% !important;
+    [data-testid="stHorizontalBlock"] {
+        gap: 0.3rem !important;
     }
-    div[data-testid="column"] .stButton > button {
+    [data-testid="column"] button {
         width: 100% !important;
-        font-size: 0.85rem !important;
-        padding: 0.5rem 0.2rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+        padding: 0 0.3rem !important;
     }
     .stButton > button:hover { background-color: #A00D18; }
     h1 { font-size: 1.5rem !important; color: #C8101E !important; }
@@ -332,7 +328,7 @@ elif st.session_state.page == 'profile':
 
     st.divider()
 
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1,1])
     with col1:
         if st.button("이전"):
             st.session_state.page = 'membership'
@@ -375,7 +371,7 @@ elif st.session_state.page == 'date':
 
     st.divider()
 
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1,1])
     with col1:
         if st.button("이전"):
             st.session_state.page = 'profile'
@@ -572,7 +568,7 @@ elif st.session_state.page == 'home':
 
     st.divider()
 
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1,1])
     if st.session_state.membership == '정기 멤버십':
         with col1:
             if st.button("동선 지도 보기"):
