@@ -572,10 +572,11 @@ elif st.session_state.page == 'home':
     if st.session_state.membership == '정기 멤버십' and course:
         st.subheader("편의시설 안내")
         st.markdown(f"**휴게 공간:** {course['rest']}")
+        st.markdown("**의무실:** 삼천리동산 후문 옆")
 
     if st.session_state.child_age <= 6:
-        st.markdown("**수유실:** 캐릭터타운 내 위치")
-        st.markdown("**유모차 대여:** 정문 입구 안내소")
+        st.markdown("**수유실:** 정문 왼편 시계탑, 캐릭터타운 내 라바트위스터 옆")
+        st.markdown("**유모차 대여:** 정문 또는 동문 입장 후 오른편")
 
     st.divider()
 
@@ -586,11 +587,11 @@ elif st.session_state.page == 'home':
                 st.session_state.page = 'map'
                 st.rerun()
         with c2:
-            if st.button("방문 종료 후 리포트", key="home_report", use_container_width=True):
+            if st.button("방문 종료 후 리포트 작성", key="home_report", use_container_width=True):
                 st.session_state.page = 'report'
                 st.rerun()
     else:
-        if st.button("방문 종료 후 리포트 작성"):
+        if st.button("방문 종료 후 리포트 작성", use_container_width=True):
             st.session_state.page = 'report'
             st.rerun()
 
