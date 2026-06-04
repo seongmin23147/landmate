@@ -37,7 +37,7 @@ st.markdown("""
     div[data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
-        gap: 8px !important;
+        gap: 4px !important;
         flex-wrap: nowrap !important;
     }
     .stButton > button:hover { background-color: #A00D18; }
@@ -566,14 +566,20 @@ elif st.session_state.page == 'home':
 
     st.divider()
 
+    col1, col2 = st.columns(2)
     if st.session_state.membership == '정기 멤버십':
-        if st.button("동선 지도 보기"):
-            st.session_state.page = 'map'
+        with col1:
+            if st.button("동선 지도 보기"):
+                st.session_state.page = 'map'
+                st.rerun()
+        with col2:
+            if st.button("리포트 작성"):
+                st.session_state.page = 'report'
+                st.rerun()
+    else:
+        if st.button("리포트 작성"):
+            st.session_state.page = 'report'
             st.rerun()
-
-    if st.button("방문 종료 후 리포트 작성"):
-        st.session_state.page = 'report'
-        st.rerun()
 
 # =====================
 # 화면 6: 동선 지도
@@ -759,13 +765,9 @@ elif st.session_state.page == 'report':
     st.divider()
 
     st.subheader("오늘의 방문 요약")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("방문 월", f"{st.session_state.visit_month}월")
-    with col2:
-        st.metric("아이 연령", f"만 {st.session_state.child_age}세")
-    with col3:
-        st.metric("멤버십", st.session_state.membership)
+    st.markdown(f"- **방문 월:** {st.session_state.visit_month}월")
+    st.markdown(f"- **아이 연령:** 만 {st.session_state.child_age}세")
+    st.markdown(f"- **멤버십:** {st.session_state.membership}")
 
     st.divider()
 
