@@ -29,18 +29,19 @@ st.markdown("""
         background-color: #C8101E; color: white;
         border: none; border-radius: 8px;
     }
-    [data-testid="column"] {
-        padding: 0 !important;
+    div[data-testid="stHorizontalBlock"] {
+        gap: 0.5rem !important;
+    }
+    div[data-testid="column"] {
         min-width: 0 !important;
+        flex: 1 !important;
     }
-    [data-testid="stHorizontalBlock"] {
-        gap: 0.3rem !important;
-    }
-    [data-testid="column"] button {
+    div[data-testid="column"] > div {
         width: 100% !important;
-        font-size: 0.8rem !important;
-        white-space: nowrap !important;
-        padding: 0 0.3rem !important;
+    }
+    div[data-testid="column"] button {
+        width: 100% !important;
+        font-size: 0.85rem !important;
     }
     .stButton > button:hover { background-color: #A00D18; }
     h1 { font-size: 1.5rem !important; color: #C8101E !important; }
@@ -328,13 +329,13 @@ elif st.session_state.page == 'profile':
 
     st.divider()
 
-    col1, col2 = st.columns([1,1])
-    with col1:
-        if st.button("이전"):
+    btn_col1, btn_col2 = st.columns([1,1])
+    with btn_col1:
+        if st.button("이전", key="profile_prev"):
             st.session_state.page = 'membership'
             st.rerun()
-    with col2:
-        if st.button("다음"):
+    with btn_col2:
+        if st.button("다음", key="profile_next"):
             st.session_state.child_age = child_age
             st.session_state.child_type = child_type
             st.session_state.visit_purpose = visit_purpose
@@ -371,13 +372,13 @@ elif st.session_state.page == 'date':
 
     st.divider()
 
-    col1, col2 = st.columns([1,1])
-    with col1:
-        if st.button("이전"):
+    btn_col1, btn_col2 = st.columns([1,1])
+    with btn_col1:
+        if st.button("이전", key="date_prev"):
             st.session_state.page = 'profile'
             st.rerun()
-    with col2:
-        if st.button("추천 받기"):
+    with btn_col2:
+        if st.button("추천 받기", key="date_next"):
             st.session_state.visit_month = visit_month
             st.session_state.visit_weekday = visit_weekday
             st.session_state.visit_weather = visit_weather
@@ -568,14 +569,14 @@ elif st.session_state.page == 'home':
 
     st.divider()
 
-    col1, col2 = st.columns([1,1])
     if st.session_state.membership == '정기 멤버십':
-        with col1:
-            if st.button("동선 지도 보기"):
+        btn_col1, btn_col2 = st.columns([1,1])
+        with btn_col1:
+            if st.button("동선 지도 보기", key="home_map"):
                 st.session_state.page = 'map'
                 st.rerun()
-        with col2:
-            if st.button("방문 종료 후 리포트 작성"):
+        with btn_col2:
+            if st.button("방문 종료 후\n리포트 작성", key="home_report"):
                 st.session_state.page = 'report'
                 st.rerun()
     else:
